@@ -17,12 +17,13 @@ class PersonalInfo(models.Model):
       return self.id
 #    displayPicture = models.ImageField(upload_to=upload_to='uploads/')
 
-class AccountLoginDetails(models.model):
-	personalInfoId = models.ForeignKey(PersonalInfo)
-	verify = models.BooleanField(default=False)
-	signedUpWithFB = models.BooleanField(default=False)
-	def __unicode__(self):
+class AccountLoginDetails(models.Model):
+    personalInfoId = models.ForeignKey(PersonalInfo)
+    verify = models.BooleanField(default=False)
+    signedUpWithFB = models.BooleanField(default=False)
+    def __unicode__(self):
       return self.id
+
 
 class PersonalActivity(models.Model):
     personalInfoId = models.ForeignKey(PersonalInfo)
@@ -35,9 +36,9 @@ class PersonalActivity(models.Model):
       return self.personalInfoId
 
 class Category(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)				#Not required. It's what django does by default with name id only
+    #id = models.PositiveIntegerField(primary_key=True)                #Not required. It's what django does by default with name id only
     name = models.CharField(max_length=25, blank='noCategoryName')
-    parentId = models.ForeignKey(Category)						#foreignkey to same field can be done acc. to stackoverflow. I think you wanted this only
+    parentId = models.ForeignKey('self')                        #foreignkey to same field can be done acc. to stackoverflow. I think you wanted this only
     def __unicode__(self):
       return self.id
 
@@ -72,7 +73,7 @@ class Reviews(models.Model):
     reviewBy = models.PositiveIntegerField(PersonalInfo)
     reviewFor = models.ForeignKey(PersonalInfo)
     star = models.DecimalField(max_digits=1, decimal_places=0)
-    comment = models.CharField(max_length=500, default='noComment')                #how to make it varchar- WHY?
+    comment = models.TextField(default='noComment')                #how to make it varchar- WHY?
     uploadDate = models.DateField()
     numberOfUpvotes = models.PositiveSmallIntegerField()
                                                                                 #Provide option of upvotes- WTF IS THIS: PARIJAT
@@ -81,6 +82,6 @@ class Reviews(models.Model):
       return self.id
 
 class votes(models.Model):
-	reviewId = models.ForeignKey(Reviews)
-	personalInfoId = models.ForeignKey(PersonalInfo)
-	voteIsUpvote = models.BooleanField(default=True)
+    reviewId = models.ForeignKey(Reviews)
+    personalInfoId = models.ForeignKey(PersonalInfo)
+    voteIsUpvote = models.BooleanField(default=True)
