@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class PersonalInfo(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=30, default='noName')
     email = models.CharField(max_length=50)
     passwd = models.CharField(max_length=30, default='noPasswd')
@@ -18,9 +18,11 @@ class PersonalInfo(models.Model):
 #    displayPicture = models.ImageField(upload_to=upload_to='uploads/')
 
 class AccountLoginDetails(models.model):
+	personalInfoId = models.ForeignKey(PersonalInfo)
 	verify = models.BooleanField(default=False)
 	signedUpWithFB = models.BooleanField(default=False)
-
+	def __unicode__(self):
+      return self.id
 
 class PersonalActivity(models.Model):
     personalInfoId = models.ForeignKey(PersonalInfo)
